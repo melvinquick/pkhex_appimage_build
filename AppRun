@@ -1,0 +1,84 @@
+#!/bin/bash
+set -e
+
+here="$(dirname "$(readlink -f "$0")")"
+export APPIMAGE_EXTRACT_AND_RUN=1
+
+export WINEPREFIX="$HOME/.config/pkhex_appimage/wineprefix"
+export WINEARCH=win64
+export WINEDLLOVERRIDES="dwrite,d2d1=b"
+
+# * Persistent writable directories
+pkhex_data="$HOME/.config/pkhex_appimage/data"
+mkdir -p "$pkhex_data"/{bak,pkmdb,mgdb,sounds,template,trainers,plugins}
+
+if [ ! -d "$WINEPREFIX" ]; then
+    echo "[PKHeX AppImage] Initializing Wine prefix (first run only)..."
+    mkdir -p "$WINEPREFIX"
+    "$here/usr/bin/wine" wineboot --init 2>/dev/null
+    echo "[PKHeX AppImage] Initialization complete."
+fi
+
+# * Extract to writable cache (AppImage mount is read-only)
+writable_cache="$HOME/.cache/pkhex_appimage/extracted"
+if [ ! -f "$writable_cache/.extracted_version" ] || \
+   [ "$(cat "$writable_cache/.extracted_version" 2>/dev/null)" != "$APPIMAGE" ]; then
+    echo "[PKHeX AppImage] Extracting to writable cache..."
+    rm -rf "$writable_cache"
+    mkdir -p "$writable_cache"
+
+    "$APPIMAGE" --appimage-extract >/dev/null 2>&1
+
+    mv squashfs-root/* "$writable_cache/" 2>/dev/null || \
+    cp -a squashfs-root/* "$writable_cache/" 2>/dev/null
+    rm -rf squashfs-root
+
+    echo "$APPIMAGE" > "$writable_cache/.extracted_version"
+fi
+
+# * Patch cfg.json with absolute writable paths for LocalResources
+cfg_file="$writable_cache/opt/pkhex/cfg.json"
+if [ -f "$cfg_file" ]; then
+    to_wine_path() {
+        echo "Z:$(echo "$1" | sed 's|/|\\\\|g')"
+    }
+
+    bak_path="$(to_wine_path "$pkhex_data/bak")"
+    pkmdb_path="$(to_wine_path "$pkhex_data/pkmdb")"
+    mgdb_path="$(to_wine_path "$pkhex_data/mgdb")"
+    plugins_path="$(to_wine_path "$pkhex_data/plugins")"
+    sounds_path="$(to_wine_path "$pkhex_data/sounds")"
+    template_path="$(to_wine_path "$pkhex_data/template")"
+    trainers_path="$(to_wine_path "$pkhex_data/trainers")"
+
+    python3 -c "
+import json
+
+with open('$cfg_file', 'r') as f:
+    cfg = json.load(f)
+
+cfg['LocalResources'] = {
+    'DatabasePath': '$pkmdb_path',
+    'MGDatabasePath': '$mgdb_path',
+    'BackupPath': '$bak_path',
+    'SoundPath': '$sounds_path',
+    'TemplatePath': '$template_path',
+    'TrainerPath': '$trainers_path',
+    'PluginPath': '$plugins_path'
+}
+
+with open('$cfg_file', 'w') as f:
+    json.dump(cfg, f, indent=2)
+" 2>/dev/null || {
+    sed -i "s|\"BackupPath\":.*|\"BackupPath\": \"$bak_path\",|" "$cfg_file"
+    sed -i "s|\"DatabasePath\":.*|\"DatabasePath\": \"$pkmdb_path\",|" "$cfg_file"
+    sed -i "s|\"MGDatabasePath\":.*|\"MGDatabasePath\": \"$mgdb_path\",|" "$cfg_file"
+    sed -i "s|\"PluginPath\":.*|\"PluginPath\": \"$plugins_path\",|" "$cfg_file"
+    sed -i "s|\"SoundPath\":.*|\"SoundPath\": \"$sounds_path\",|" "$cfg_file"
+    sed -i "s|\"TemplatePath\":.*|\"TemplatePath\": \"$template_path\",|" "$cfg_file"
+    sed -i "s|\"TrainerPath\":.*|\"TrainerPath\": \"$trainers_path\"|" "$cfg_file"
+}
+fi
+
+# * Launch from writable extracted copy
+"$writable_cache/usr/bin/wine" "$writable_cache/opt/pkhex/PKHeX.exe" "$@"

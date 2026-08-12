@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=PKHeX
+Exec=AppRun %F
+Icon=pkhex
+Type=Application
+Categories=Game;Utility;
+Comment=Pokémon core series save editor
+StartupWMClass=pkhex.exe
+Terminal=false
