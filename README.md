@@ -13,6 +13,14 @@ Build Scripts: Copyright (C) 2026 Melvin Quick — AppImage packaging, Wine bund
 
 > **Unofficial community packaging.** This project is not affiliated with or endorsed by kwsch or the PKHeX development team. "PKHeX", "Pokémon", and related marks are trademarks of their respective owners. Please report PKHeX bugs to the [upstream repository](https://github.com/kwsch/PKHeX/issues), not here.
 
+## Source & Downloads
+
+Because of file size limits on Codeberg for releases, I will only be releasing the AppImage via GitHub. Here's the relevant links:
+
+- [Codeberg Repo](https://codeberg.org/melvinquick/pkhex_appimage_build)
+- [GitHub Repo](https://github.com/melvinquick/pkhex_appimage_build)
+- [Download](https://github.com/melvinquick/pkhex_appimage_build/releases/latest)
+
 ## Purpose
 
 To provide a ready-to-run Linux AppImage of PKHeX that works out-of-the-box on modern distributions without requiring manual Wine setup, .NET installation, or path configuration.
