@@ -86,7 +86,7 @@ All persistent data lives outside the AppImage and survives updates:
 ### Build Steps
 
 ```bash
-git clone <this-repo-url>
+git clone https://codeberg.org/melvinquick/pkhex_appimage_build.git
 cd pkhex_appimage_build
 chmod +x *.sh
 ./upgrade.sh
