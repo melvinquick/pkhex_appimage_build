@@ -83,7 +83,7 @@ All persistent data lives outside the AppImage and survives updates:
 - `wine` (system package)
 - `appimagetool` (from AUR or GitHub releases)
 - `git`, `wget`, `python3` (usually pre-installed)
-- .NET 10 SDK (auto-installed by `prepare_pkhex_source.sh` if missing)
+- .NET SDK (auto-installed by `prepare_pkhex_source.sh` if missing, automatically pulls whatever version PKHeX is using at that point in time)
 
 ### Build Steps
 
