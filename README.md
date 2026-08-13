@@ -74,6 +74,8 @@ All persistent data lives outside the AppImage and survives updates:
 | `~/.config/pkhex_appimage/wineprefix/`    | Wine prefix (reset to reinitialize)        |
 | `~/.cache/pkhex_appimage/extracted/`      | Writable extraction cache (safe to delete) |
 
+> **Note:** On first launch, PKHeX may show default relative paths in Options → Settings → Local Resources. Close and reopen the app once — all paths will be correctly set on subsequent launches. This only happens on the very first run.
+
 ## Building From Source
 
 ### Prerequisites
