@@ -19,6 +19,7 @@ Unofficial Linux AppImage packaging of [PKHeX](https://github.com/kwsch/PKHeX), 
   - [Building From Source](#building-from-source)
     - [Prerequisites](#prerequisites)
     - [Build Steps](#build-steps)
+  - [Useful Information](#useful-information)
 
 ## [Copyright & License Notices](#table-of-contents)
 
@@ -134,3 +135,8 @@ cd pkhex_appimage_build
 chmod +x *.sh
 ./upgrade.sh
 ```
+
+## Useful Information
+
+[Project](https://github.com/users/melvinquick/projects/16)  
+[Latest Release](https://github.com/melvinquick/pkhex_appimage_build/releases/latest)
