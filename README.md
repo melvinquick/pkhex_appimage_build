@@ -33,9 +33,6 @@ Build Scripts: Copyright (C) 2026 Melvin Quick — AppImage packaging, Wine bund
 
 ## [Source & Downloads](#table-of-contents)
 
-Because of file size limits on Codeberg for releases, I will only be releasing the AppImage via GitHub. Here's the relevant links:
-
-- [Codeberg Repo](https://codeberg.org/melvinquick/pkhex_appimage_build)
 - [GitHub Repo](https://github.com/melvinquick/pkhex_appimage_build)
 - [Download](https://github.com/melvinquick/pkhex_appimage_build/releases/latest)
 
@@ -132,7 +129,7 @@ All persistent data lives outside the AppImage and survives updates:
 ### Build Steps
 
 ```bash
-git clone https://codeberg.org/melvinquick/pkhex_appimage_build.git
+git clone https://github.com/melvinquick/pkhex_appimage_build.git
 cd pkhex_appimage_build
 chmod +x *.sh
 ./upgrade.sh
