@@ -93,8 +93,9 @@ if [ "$required_major" != "$installed_major" ]; then
         echo "ERROR: Failed to install .NET $required_major.0"
         exit 2
     fi
-    echo "  .NET SDK ready ($(dotnet --version))"
+    echo ".NET SDK ready ($(dotnet --version))"
 else
+    echo ".NET SDK already correct ($(dotnet --version))"
 fi
 
 echo -n "Publishing self-contained build... "
