@@ -22,6 +22,7 @@ echo "✓"
 
 echo -n "Copying PKHeX build... "
 cp -r "$publish_dir/"* "$app_dir/opt/pkhex/"
+rm -f "$app_dir/opt/pkhex/cfg.json"
 echo "✓"
 
 echo -n "Copying metadata... "
